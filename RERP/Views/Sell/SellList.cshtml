@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "Sell List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0 font-size-18">Selling Item List</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <!-- end row -->
+
+        <br />
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+
+
+                        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Item Code</th>
+                                    <th style="text-align:center">Color</th>
+                                    <th style="text-align:center">Size</th>
+                                    <th style="text-align:center">Sell Qty</th>
+                                    <th style="text-align:center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < ViewBag.getprod.Count; i++)
+                                {
+                                    <tr>
+
+                                        <td style="text-align:center">@ViewBag.getprod[i].item_code</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].color_name</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].size_name</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].qty</td>
+                                        <td style="text-align:center">
+                                            <button class="btn btn-primary" onclick="EditRole(@ViewBag.getprod[i].sell_details_id)" title="Return"><i class="fas fa-fast-backward"></i></button> 
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div> <!-- container-fluid -->
+
+</div>
+<div id="partialContainer">
+    @Html.Partial("~/Views/Shared/Partial/_ReturnPartialView.cshtml")
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function EditRole(sell_details_id) {
+        debugger
+        $.ajax({
+            type: "GET",
+            url: "/Sell/GetData/" + sell_details_id,
+            success: function (data) {
+                // Append the loaded content to the container
+                $('#sell_details_id').val(data.sell_details_id);
+                $('#hidden_qty').val(data.qty);
+                $('#qty').val(data.qty);
+
+                $('#SellModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+
+                swal.fire('Oops...', 'Something went wrong!', 'error');
+            }
+        });
+    }
+    function Update() {
+    
+
+        // Update logic
+        Swal.showLoading();
+        var formData = new FormData();
+        
+        // Append data to the FormData object
+        formData.append('sell_details_id', $('#sell_details_id').val());
+        formData.append('qty', $('#qty').val());
+        
+
+        $.ajax({
+            type: 'POST',
+            url: '/Sell/ReturnQty',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                Swal.close();
+
+                if (result.success) {
+
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Data Updated successfully',
+                        icon: 'success'
+                    }).then((result) => {
+
+                        if (result.isConfirmed) {
+
+                            location.reload(true);
+                        }
+                    });
+                } else {
+                    console.log('Failure block executed');
+                    alert('Failed to update entry. ' + result.errorMessage);
+                }
+            },
+
+            error: function () {
+                Swal.close();
+                swal.fire('Oops...', 'Something went wrong!', 'error');
+            }
+        });
+
+
+    }
+</script>

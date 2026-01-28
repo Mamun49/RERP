@@ -1,0 +1,244 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <h3>Dashboard</h3>
+        <div class="row mt-4">
+            <!-- Button 1 -->
+            <div class="col-md-4 text-center">
+                <button class="btn btn-primary btn-lg w-100 py-4" data-bs-toggle="modal" onclick="GetProductModal()">
+                    <i class="fas fa-shopping-cart"></i> Add Product
+                </button>
+            </div>
+            <!-- Button 2 -->
+            <div class="col-md-4 text-center">
+                <button class="btn btn-success btn-lg w-100 py-4" onclick="location.href='@Url.RouteUrl("Sell")'">
+                    <i class="fas fa-shopping-bag"></i> Add Sale
+                </button>
+            </div>
+
+            <!-- Button 3 -->
+            <div class="col-md-4 text-center">
+                <button class="btn btn-danger btn-lg w-100 py-4" data-bs-toggle="modal" onclick="GetExpenceModal()">
+                    <i class="fas fa-dollar-sign"></i> Add Expence
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="partialContainer">
+    @Html.Partial("~/Views/Shared/Partial/_ProdPartialView.cshtml")
+    @Html.Partial("~/Views/Shared/Partial/_ExpencePartialView.cshtml")
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function GetProductModal() {
+        ProdResetData();
+        $('.prod_color').prop('disabled', false);
+        $('.prod_size').prop('disabled', false);
+        $("#partialViewContainer").show();
+        $('#savebutton').attr('onclick', 'SubmitProduct()')
+        $('#ProdModal').modal('show');
+    }
+    function ProdResetData() {
+        $('#prod_qty').val('');
+        $('#productImage').attr('src', '');
+        $('#prod_remarks').val('');
+        $('#productImage').remove();
+
+        $('#prod_name').val('');
+        $('#manufacturername').val('');
+        $('#buying_price').val('');
+        $('#sale_price').val('');
+        $('#last_price').val('');
+        $('#product_category').val('');
+        $('#prod_type').val('');
+        $('#remarks').val('');
+        $('#discont_rate').val('');
+        $('#other_costing').val('');
+        $('#is_active').is(':checked');
+
+    }
+    function GetExpenceModal() {
+        ExpResetData();
+        $("#partialViewContainer").show();
+        $('#expnsavebutton').attr('onclick', 'SubmitExpence()')
+        $('#ExpnModal').modal('show');
+    }
+    function ExpResetData() {
+        $('#expence_id').val('');
+        $('#type_id').val('');
+        $('#note').val('');
+        $('#amount').val('');
+        $('#remarks').val('');
+        $('#ex_date').val('');
+    }
+    function SubmitProduct() {
+        let fileInput = document.getElementById('dp');
+        let file = fileInput.files[0];
+        Swal.showLoading();
+        var formData = new FormData();
+        $(".repeater [data-repeater-item]").each(function (index) {
+            var prod_color = $(this).find("#prod_color").val();
+            var prod_size = $(this).find("#prod_size").val();
+            var prod_qty = $(this).find("#prod_qty").val();
+            var prod_remarks = $(this).find("#prod_remarks").val();
+
+            formData.append("ProductDetails[" + index + "].prod_color", prod_color);
+            formData.append("ProductDetails[" + index + "].prod_size", prod_size);
+            formData.append("ProductDetails[" + index + "].prod_qty", prod_qty);
+            formData.append("ProductDetails[" + index + "].prod_remarks", prod_remarks);
+        });
+        formData.append('prod_name', $('#prod_name').val());
+        formData.append('manufacturername', $('#manufacturername').val());
+        formData.append('buying_price', $('#buying_price').val());
+        formData.append('sale_price', $('#sale_price').val());
+        formData.append('last_price', $('#last_price').val());
+        formData.append('product_category', $('#product_category').val());
+        formData.append('prod_type', $('#prod_type').val());
+        formData.append('remarks', $('#remarks').val());
+        formData.append('is_active', $('#is_active').is(':checked'));
+        formData.append('other_costing', $('#other_costing').val());
+        formData.append('discount_type', $('#discount_type').val());
+        formData.append('discont_rate', $('#discont_rate').val());
+        formData.append('dp', file);
+        if ($('#prod_color').val() == '' || $('#prod_color').val() == null) {
+            Swal.fire({
+                text: "Please Enter Product Color!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        if ($('#prod_name').val() == '' || $('#prod_name').val() == null) {
+            Swal.fire({
+                text: "Please Enter Product Name!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        if ($('#buying_price').val() == '' || $('#buying_price').val() == null) {
+            Swal.fire({
+                text: "Please Enter Buying Price!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        if ($('#product_category').val() == $('#product_category').text()) {
+            Swal.fire({
+                text: "Please Enter Product Category!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/Product/SaveProduct',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+
+                if (result.success) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Data saved successfully!',
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: result.errorMessage || 'Something went wrong!',
+                        icon: 'error'
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: error || 'Something went wrong!',
+                    icon: 'error'
+                });
+            }
+        });
+    }
+    function SubmitExpence() {
+
+        // Create logic
+        Swal.showLoading();
+        var formData = new FormData();
+        formData.append('remarks', $('#remarks').val());
+        formData.append('ex_date', $('#ex_date').val());
+        formData.append('amount', $('#amount').val());
+        formData.append('note', $('#note').val());
+        formData.append('type_id', $('#type_id').val());
+
+        if ($('#type_id').val() == '' || $('#type_id').val() == null) {
+            Swal.fire({
+                text: "Please Enter Expence Type name!",
+                title: "Warning!",
+                icon: 'error',
+            });
+
+            return false;
+        }
+        if ($('#amount').val() == '' || $('#amount').val() == null) {
+            Swal.fire({
+                text: "Please Enter Expence amount!",
+                title: "Warning!",
+                icon: 'error',
+            });
+
+            return false;
+        }
+        if ($('#ex_date').val() == '' || $('#ex_date').val() == null) {
+            Swal.fire({
+                text: "Please Enter Expence amount!",
+                title: "Warning!",
+                icon: 'error',
+            });
+
+            return false;
+        }
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/Expence/Save',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                // Handle the success case, e.g., remove the deleted image from the table
+                Swal.close();
+                if (result.success) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Data Insert successfully',
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                    alert('Failed to Insert entry.');
+                }
+            },
+            error: function () {
+                swal.fire('Oops...', 'Something went wrong!', 'error');
+            }
+        });
+
+    }
+</script>

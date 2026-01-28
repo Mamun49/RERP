@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Sell Report";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0 font-size-18">Sell List</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <!-- end row -->
+
+        <br />
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+
+
+                        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Customer Name</th>
+                                    <th style="text-align:center">Selling Date</th>
+                                    <th style="text-align:center">Total Selling Price</th>
+                                    <th style="text-align:center">Remarks</th>
+                                    <th style="text-align:center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < ViewBag.getprod.Count; i++)
+                                {
+                                    <tr>
+                                        
+                                        <td style="text-align:center">@ViewBag.getprod[i].customer_name</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].selling_date.ToString("dd/MM/yyyy")</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].total_value</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].remarks</td>
+
+                                        <td style="text-align:center">
+                                            <a href="@Url.Action("GetSellReport", "Report", new { sell_id = ViewBag.getprod[i].sell_id })" title="View" class="font-20 text-primary">
+                                                <i class="fas fa-print"></i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div> <!-- container-fluid -->
+
+</div>
+

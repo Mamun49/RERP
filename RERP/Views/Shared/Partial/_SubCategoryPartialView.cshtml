@@ -1,0 +1,90 @@
+﻿@{
+    var categoryLists = ViewBag.CategoryLists as IEnumerable<RERP.Models.DropDownModel>;
+ }
+<div class="modal fade" id="CateModal" tabindex="-1" aria-labelledby="CateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="CateModalLabel">Sub Category Setting</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form>
+                                    <div class="row">
+                                        <input id="sub_cate_id" name="sub_cate_id" type="text" class="form-control" hidden>
+                                        <div class="mb-6">
+                                            <label for="cate_id" class="control-label">Category</label>
+                                            <select class="form-control" id="cate_id" style="width:100%" name="cate_id">
+                                                <option value="">-Select Category-</option>
+                                                @foreach (var item in categoryLists)
+                                                {
+                                                    <option value="@item.id">@item.dd_value</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="mb-6">
+                                            <label for="sub_cate_name">Sub Category Name</label>
+                                            <input id="sub_cate_name" name="sub_cate_name" type="text" class="form-control" placeholder="Sub Category Name">
+                                        </div>
+                                        <div class="mb-6 mt-5">
+                                            <div class="form-check form-check-success mb-3">
+
+                                                <label class="form-check-label" for="is_active">
+                                                    Is Active?
+                                                </label>
+                                                <input class="form-check-input" type="checkbox" name="is_active" id="is_active" checked>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="savebutton" onclick="Submit()">Save Changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Bootstrap CSS and JS -->
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+@*<script>
+        $(function () {
+            debugger
+            $.ajax({
+                url: '/DropDown/GetDropdownData',
+                type: 'GET',
+                dataType: 'json',
+                data: { type: 'User' },
+                success: function (data) {
+                    // Populate the dropdown with the received data
+                    var dropdown = $('#username');
+                    dropdown.empty();
+                    dropdown.append('<option value="" selected>Select User</option>');
+                    $.each(data, function (index, item) {
+                        dropdown.append($('<option></option>').val(item.Value).text(item.Text));
+                    });
+                    //  var user_id = ;
+                    $('#username').val(data.fk_user_id);
+                },
+                error: function () {
+                    alert('Error loading User.');
+                }
+            });
+        });
+    </script>*@
+
+
+

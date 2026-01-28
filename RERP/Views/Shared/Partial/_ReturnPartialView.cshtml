@@ -1,0 +1,57 @@
+﻿<div class="modal fade" id="SellModal" tabindex="-1" aria-labelledby="SellModalLabel" aria-hidden="true">
+  
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="SellModalLabel">Return Qty</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <input id="sell_details_id" name="sell_details_id" type="text" class="form-control" hidden>
+                                            <input id="hidden_qty" name="hidden_qty" type="text" class="form-control" hidden>
+                                            <div class="mb-6">
+                                                <label for="qty">Sell Qty</label>
+                                                <input id="qty" name="qty" type="text" class="form-control" placeholder="Qty" onchange="validateQuantity(this)">
+                                            </div>
+
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="savebutton" onclick="Update()">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Include Bootstrap CSS and JS -->
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function validateQuantity(input) {
+        var stockQty = $('#hidden_qty').val();
+        var issueQty = parseFloat(input.value);
+        console.log(stockQty);
+        console.log(issueQty);
+        if (issueQty > stockQty) {
+            alert("Return quantity cannot be greater than Selling quantity");
+            input.value = '';
+        }
+    }
+</script>
+
+
+

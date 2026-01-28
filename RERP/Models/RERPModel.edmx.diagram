@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="49ad6ac999264d6abbf364e02cdcab1f" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="RERPModel.tbl_category" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RERPModel.tbl_color" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RERPModel.tbl_company" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RERPModel.tbl_sell" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RERPModel.tbl_size" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RERPModel.tbl_sub_category" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RERPModel.tbl_user" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RERPModel.tbl_expense_type" Width="1.5" PointX="9.375" PointY="10.75" />
+        <EntityTypeShape EntityType="RERPModel.tbl_expenses" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="RERPModel.tbl_product" Width="1.5" PointX="0.75" PointY="4.5" />
+        <EntityTypeShape EntityType="RERPModel.tbl_product_details" Width="1.5" PointX="2.75" PointY="4.625" />
+        <EntityTypeShape EntityType="RERPModel.tbl_sell_details" Width="1.5" PointX="6.625" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

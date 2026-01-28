@@ -1,0 +1,88 @@
+﻿@model RERP.Models.SellModel
+@{
+    ViewBag.Title = "GetSellReport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="invoice-title">
+
+                            <div class="mb-4">
+                                <img src="~/Content/rlogo.jpg" alt="logo" height="100" />
+                            </div>
+                        </div>
+                        <hr>
+                        <h2 style="text-align:center;"><strong>Invoice</strong></h2>
+                        <div class="row">
+                            <div class="col-sm-6">
+
+                                <address>
+
+                                    <b>Customer Name :</b> @Model.customer_name <br>
+                                    <b>Selling Date :</b> @Model.selling_date.Value.ToString("dd/MM/yyyy")
+                                    <br>
+                                </address>
+                            </div>
+                            <div class="col-sm-6 text-sm-end">
+                                <address>
+                                    <b>Remarks :</b> @Model.remarks<br>
+                                    <b>Total Selling Price :</b> @Model.total_value
+                                </address>
+                            </div>
+                        </div>
+
+                        <div class="py-2 mt-3">
+                            <h3 class="font-size-15 fw-bold">Product summary</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Item Code</th>
+                                        <th>Color</th>
+                                        <th>Size</th>
+                                        <th class="text-end">Qty</th>
+                                        <th class="text-end">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model?.SellDetails != null && Model.SellDetails.Any())
+                                    {
+                                        foreach (var data in Model.SellDetails)
+                                        {
+                                            <tr>
+                                                <td>@data.item_code</td>
+                                                <td>@(data.color_name ?? "N/A")</td>
+
+                                                <td>@(data.size_name ?? "N/A")</td>
+                                                <td class="text-end">@data.qty</td>
+                                                <td class="text-end">@data.selling_price</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="text-center">No product details available.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-print-none">
+                            <div class="float-end">
+                                <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
+                                <a href="@Url.RouteUrl("SellReport")" class="btn btn-primary w-md waves-effect waves-light">Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

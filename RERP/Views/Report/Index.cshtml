@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "Stock List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0 font-size-18">Stock List</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <!-- end row -->
+
+        <br />
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+
+
+                        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Image</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">Code</th>
+                                    <th style="text-align:center">Category</th>
+                                    <th style="text-align:center">Remain Qty</th>
+                                    @if (Session["Role"] != null && Session["Role"].ToString() == "admin")
+                                    {
+                                        <th style="text-align:center">Buying Price</th>
+                                    }
+                                    <th style="text-align:center">Selling Price</th>
+                                    <th style="text-align:center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < ViewBag.getprod.Count; i++)
+                                {
+                                    <tr>
+                                        <td style="text-align:center">
+                                            <img src="@ViewBag.getprod[i].dp" alt="Product Image" style="width:100px; height:100px; object-fit:cover;">
+                                        </td>
+
+                                        <td style="text-align:center">@ViewBag.getprod[i].prod_name</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].product_code</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].category_name</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].remaining_total_qty</td>
+                                        @if (Session["Role"] != null && Session["Role"].ToString() == "admin")
+                                        {
+                                            <td style="text-align:center">@ViewBag.getprod[i].buying_price</td>
+                                        }
+                                        <td style="text-align:center">@ViewBag.getprod[i].sale_price</td>
+
+                                        <td style="text-align:center">
+                                            <a href="@Url.Action("GetReport", "Report", new { product_id = ViewBag.getprod[i].product_id })" title="View" class="font-20 text-primary">
+                                                <i class="fas fa-print"></i>
+                                            </a>
+                                            <button title="Print Barcode" class="font-20 text-primary" onclick="printBarcode(@ViewBag.getprod[i].product_id)"><i class="fas fa-barcode"></i></button>
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div> <!-- container-fluid -->
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function printBarcode(productId) {
+        $.getJSON(`/Product/GenerateBarcode?product_id=${productId}`, function (response) {
+    if (response.length > 0) {
+        // Open a new window for printing
+        const printWindow = window.open('', '_blank');
+
+        // Add custom styles for thermal print size
+        printWindow.document.write(`
+<html>
+    <head>
+        <title>Print Barcode</title>
+        <style>
+            @@page {
+                size: 38mm 25mm; /* Thermal paper size */
+                margin: 0; /* No margins for edge-to-edge printing */
+                padding: 0; /* No padding */
+            }
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                font-size: 8px;
+                text-align: center;
+            }
+            img {
+                width: 90%; /* Fit barcode to width */
+                height: auto;
+                margin: 0 auto;
+            }
+            .name {
+                margin-top: 0px;
+            }
+            .price {
+                margin-top: 5px;
+                font-weight: bold;
+            }
+            .shopname {
+                margin-top: 15px;
+                font-weight: bold;
+            }
+            .page {
+                display: block;
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                page-break-after: always; /* Ensure each .page gets its own page */
+            }
+            .page:last-child {
+                page-break-after: auto; /* Prevent blank page after the last item */
+            }
+        </style>
+    </head>
+    <body>
+        ${response.map((item, index) => `
+        <div class="page">
+            <div class="shopname">Kitchen Hub & Gift Shop</div>
+            <img src="${item.barcode}" alt="Barcode" />
+            <div class="name">Item Name: ${item.prod_name}</div>
+            <div class="price">Price: ${item.sale_price}</div>
+        </div>
+        `).join('')}
+    </body>
+</html>
+`);
+
+        // Close and trigger the print dialog
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+
+        // Optional: Close the print window after printing
+        printWindow.onafterprint = function () {
+            printWindow.close();
+        };
+    } else {
+        alert('No products found.');
+    }
+});
+
+
+
+
+
+    }
+
+</script>
+

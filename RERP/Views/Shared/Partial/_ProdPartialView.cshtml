@@ -1,0 +1,208 @@
+﻿@{
+    var categoryLists = ViewBag.CategoryLists as IEnumerable<RERP.Models.DropDownModel>;
+    var colorLists = ViewBag.ColorLists as IEnumerable<RERP.Models.DropDownModel>;
+    var sizeLists = ViewBag.SizeLists as IEnumerable<RERP.Models.DropDownModel>;
+}
+<div class="modal fade" id="ProdModal" tabindex="-1" aria-labelledby="ProdModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ProdModalLabel">Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0 font-size-18">Add Product</h4>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <form>
+                                    <div class="row">
+                                        <input id="product_id" name="product_id" type="text" class="form-control" hidden>
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label for="prod_name">Product Name</label>
+                                                <input id="prod_name" name="prod_name" type="text" class="form-control" placeholder="Product Name">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="manufacturername">Manufacturer Name</label>
+                                                <input id="manufacturername" name="manufacturername" type="text" class="form-control" placeholder="Manufacturer Name">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="buying_price">Buying Price</label>
+                                                <input id="buying_price" name="buying_price" type="number" class="form-control" placeholder="Price">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="sale_price">Selling Price</label>
+                                                <input id="sale_price" name="sale_price" type="number" class="form-control" placeholder="Price">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label for="product_category" class="control-label">Category</label>
+                                                <select class="form-control" id="product_category" style="width:100%" name="product_category">
+                                                    <option value="">-Select Category-</option>
+                                                    @foreach (var item in categoryLists)
+                                                    {
+                                                        <option value="@item.id">@item.dd_value</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="control-label">Type</label>
+
+                                                <select class="form-control" data-placeholder="Choose ..." id="prod_type" name="prod_type">
+                                                    <option value="local">Local</option>
+                                                    <option value="Chinese">Chinese</option>
+                                                    <option value="Others">Others</option>
+                                                </select>
+
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="remarks">Product Description</label>
+                                                <textarea class="form-control" id="remarks" rows="5" placeholder="Product Description" name="remarks"></textarea>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="mb-3">
+                                                <label for="last_price">Last Price</label>
+                                                <input id="last_price" name="last_price" type="number" class="form-control" placeholder="Price">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="mb-3">
+                                                <label for="other_costing">Other Costing</label>
+                                                <input id="other_costing" name="other_costing" type="text" class="form-control" placeholder="Other Costing">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="mb-3">
+                                                <label class="control-label">Discount Type</label>
+
+                                                <select class="form-control" data-placeholder="Choose ..." id="discount_type" name="discount_type">
+                                                    <option value="amount">Amount</option>
+                                                    <option value="percentage">Percentage</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="mb-3">
+                                                <label for="discont_rate">Discont Rate</label>
+                                                <input id="discont_rate" name="discont_rate" type="text" class="form-control" placeholder="Discont Rate">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="mb-3 mt-4">
+                                                <div class="form-check form-check-success mb-3">
+
+                                                    <label class="form-check-label" for="is_active">
+                                                        Is Active?
+                                                    </label>
+                                                    <input class="form-check-input" type="checkbox" name="is_active" id="is_active" checked>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-3">Invoice Images</h4>
+                                <div class="fallback">
+                                    <input name="dp" type="file" multiple id="dp" />
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="productImage">Product Image</label>
+                                <img id="productImage" name="productImage" src="" alt="Product Image" style="max-width: 60px; display: none;" />
+                            </div>
+                        </div> <!-- end card-->
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Item List</h4>
+                                <form class="repeater" enctype="multipart/form-data" id="repeater_select">
+                                    <div data-repeater-list="group-a">
+                                        <div data-repeater-item class="row">
+                                            <input id="product_details_id" name="product_details_id" type="text" class="form-control product_details_id" hidden>
+                                            <div class="mb-3 col-lg-3">
+                                                <label for="prod_color">Color</label>
+                                                <select class="form-control prod_color" id="prod_color" style="width:100%" name="prod_color">
+                                                    <option value="">-Select Color-</option>
+                                                    @foreach (var item in colorLists)
+                                                    {
+                                                        <option value="@item.id">@item.dd_value</option>
+                                                    }
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3 col-lg-3">
+                                                <label for="prod_size">Size</label>
+                                                <select class="form-control prod_size" id="prod_size" style="width:100%" name="prod_size">
+                                                    <option value="">-Select Size-</option>
+                                                    @foreach (var item in sizeLists)
+                                                    {
+                                                        <option value="@item.id">@item.dd_value</option>
+                                                    }
+                                                </select>
+                                            </div>
+
+                                            @*<div class="mb-3 col-lg-2">
+                                                    <label for="prod_image">Price</label>
+                                                    <input type="file" class="form-control prod_image" id="prod_image" name="prod_image">
+                                                </div>*@
+                                            <div class="mb-3 col-lg-2">
+                                                <label for="prod_qty">QTY</label>
+                                                <input type="number" class="form-control prod_qty" id="prod_qty" name="prod_qty" placeholder="Quantity">
+                                            </div>
+
+                                            <div class="mb-3 col-lg-3">
+                                                <label for="prod_remarks">Remarks</label>
+                                                <textarea class="form-control prod_remarks" placeholder="Remarks" rows="1" id="prod_remarks" name="prod_remarks"></textarea>
+                                            </div>
+
+                                            <div class="col-lg-1 align-self-center">
+                                                <div class="d-grid mt-2">
+                                                    <button data-repeater-delete type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <input data-repeater-create type="button" class="btn btn-success mt-3 mt-lg-0 clone_select2" value="Add" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="savebutton" onclick="SubmitForm()">Save Changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,418 @@
+﻿
+@{
+    ViewBag.Title = "Product List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div style="text-align: right;">
+            @*<a href="~/Setting/AddDepartment" class="btn btn-primary waves-effect waves-light">Create Department</a>*@
+            <button class="btn btn-info" data-bs-toggle="modal" onclick="GetModal()" @*data-bs-target="#projectModal"*@>Add Product</button>
+        </div>
+        <div id="partialViewContainer"></div>
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0 font-size-18">Product List</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <!-- end row -->
+
+        <br />
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+
+
+                        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Image</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">Code</th>
+                                    <th style="text-align:center">Category</th>
+                                    <th style="text-align:center">R. Qty</th>
+                                    <th style="text-align:center">B. Price</th>
+                                    <th style="text-align:center">Remarks</th>
+                                    <th style="text-align:center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < ViewBag.getprod.Count; i++)
+                                {
+                                    <tr>
+                                        <td style="text-align:center">
+                                            <img src="@ViewBag.getprod[i].dp" alt="Product Image" style="width:100px; height:100px; object-fit:cover;">
+                                        </td>
+
+                                        <td style="text-align:center">@ViewBag.getprod[i].prod_name</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].product_code</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].category_name</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].remaining_total_qty</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].buying_price</td>
+                                        <td style="text-align:center">@ViewBag.getprod[i].remarks</td>
+
+                                        <td style="text-align:center">
+                                            <button class="btn btn-primary" onclick="EditRole(@ViewBag.getprod[i].product_id)"><i class="fas fa-edit"></i></button>  <button class="btn btn-danger" onclick="deleteRole(@ViewBag.getprod[i].product_id)"><i class="fas fa-trash-alt"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div> <!-- container-fluid -->
+
+</div>
+<div id="partialContainer">
+    @Html.Partial("~/Views/Shared/Partial/_ProdPartialView.cshtml")
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    
+    function GetModal() {
+        ResetData();
+        resetRepeater();
+        $('.prod_color').prop('disabled', false);
+        $('.prod_size').prop('disabled', false);
+        $("#partialViewContainer").show();
+        $('#savebutton').attr('onclick', 'SubmitForm()')
+        $('#ProdModal').modal('show');
+    }
+    function ResetData() {
+        $('#prod_qty').val('');
+       $('#productImage').attr('src', '');
+        $('#prod_remarks').val('');
+        $('#productImage').remove();
+
+        $('#prod_name').val('');
+        $('#manufacturername').val('');
+        $('#buying_price').val('');
+        $('#sale_price').val('');
+        $('#last_price').val('');
+        $('#product_category').val('');
+        $('#prod_type').val('');
+        $('#remarks').val('');
+        $('#discont_rate').val('');
+        $('#other_costing').val('');
+        $('#is_active').is(':checked');
+
+    }
+    function EditRole(product_id) {
+        //console.log(product_id);
+        //console.log("/Product/GetProductData/" + product_id);
+         resetRepeater();
+        $.ajax({
+            type: "GET",
+    url: "/Product/GetProductData",
+    data: { product_id: product_id },
+
+            success: function (data) {
+                console.log(data);
+               
+var srModal = $('#ProdModal');
+
+// Fill individual fields within srModal
+srModal.find('#product_id').val(data.product_id);
+srModal.find('#prod_name').val(data.prod_name);
+srModal.find('#manufacturername').val(data.manufacturername);
+srModal.find('#buying_price').val(data.buying_price);
+srModal.find('#sale_price').val(data.sale_price);
+                srModal.find('#last_price').val(data.last_price);
+srModal.find('#product_category').val(data.product_category);
+srModal.find('#prod_type').val(data.prod_type);
+srModal.find('#remarks').val(data.remarks);
+srModal.find('#other_costing').val(data.other_costing);
+srModal.find('#discount_type').val(data.discount_type);
+srModal.find('#discont_rate').val(data.discont_rate);
+
+srModal.find('#is_active').prop('checked', data.is_active);
+if (data.dp) {
+                srModal.find('#productImage').attr('src', data.dp).show();
+            } else {
+                srModal.find('#productImage').hide();
+            }
+var i = 0;
+data.ProductDetails.forEach(function (detail) {
+    var newRow = srModal.find('[data-repeater-item]').first().clone();
+
+
+    if (newRow.find('.prod_color').is('select')) {
+        newRow.find('.prod_color').val(detail.prod_color).trigger('change').prop('disabled', true);
+    }
+    if (newRow.find('.prod_size').is('select')) {
+        newRow.find('.prod_size').val(detail.prod_size).trigger('change').prop('disabled', true);
+    }
+
+    newRow.find('.product_details_id').val(detail.product_details_id);
+    newRow.find('.prod_qty').val(detail.prod_qty);
+    newRow.find('.prod_remarks').val(detail.prod_remarks);
+
+    srModal.find('[data-repeater-list="group-a"]').append(newRow);
+    i++;
+});
+
+srModal.find('[data-repeater-item]').first().remove();
+
+                // Show the container
+                $("#partialViewContainer").show();
+                $('#savebutton').attr('onclick', 'Update()')
+                $('#ProdModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+
+                swal.fire('Oops...', 'Something went wrong!', 'error');
+            }
+        });
+    }
+   
+    function SubmitForm() {
+        let fileInput = document.getElementById('dp');
+        let file = fileInput.files[0];
+        Swal.showLoading();
+        var formData = new FormData();
+        $(".repeater [data-repeater-item]").each(function (index) {
+            var prod_color = $(this).find("#prod_color").val();
+            var prod_size = $(this).find("#prod_size").val();
+            var prod_qty = $(this).find("#prod_qty").val();
+            var prod_remarks = $(this).find("#prod_remarks").val();
+
+            formData.append("ProductDetails[" + index + "].prod_color", prod_color);
+            formData.append("ProductDetails[" + index + "].prod_size", prod_size);
+            formData.append("ProductDetails[" + index + "].prod_qty", prod_qty);
+            formData.append("ProductDetails[" + index + "].prod_remarks", prod_remarks);
+        });
+        formData.append('prod_name', $('#prod_name').val());
+        formData.append('manufacturername', $('#manufacturername').val());
+        formData.append('buying_price', $('#buying_price').val());
+        formData.append('sale_price', $('#sale_price').val());
+        formData.append('last_price', $('#last_price').val());
+        formData.append('product_category', $('#product_category').val());
+        formData.append('prod_type', $('#prod_type').val());
+        formData.append('remarks', $('#remarks').val());
+        formData.append('is_active', $('#is_active').is(':checked'));
+        formData.append('other_costing', $('#other_costing').val());
+        formData.append('discount_type', $('#discount_type').val());
+        formData.append('discont_rate', $('#discont_rate').val());
+        formData.append('dp', file);
+        if ($('#prod_color').val() == '' || $('#prod_color').val() == null) {
+            Swal.fire({
+                text: "Please Enter Product Color!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        if ($('#prod_name').val() == '' || $('#prod_name').val() == null) {
+            Swal.fire({
+                text: "Please Enter Product Name!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        if ($('#buying_price').val() == '' || $('#buying_price').val() == null) {
+            Swal.fire({
+                text: "Please Enter Buying Price!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        if ($('#product_category').val() == $('#product_category').text()) {
+            Swal.fire({
+                text: "Please Enter Product Category!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/Product/SaveProduct',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+
+                if (result.success) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Data saved successfully!',
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: result.errorMessage || 'Something went wrong!',
+                        icon: 'error'
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: error || 'Something went wrong!',
+                    icon: 'error'
+                });
+            }
+        });
+    }
+    function Update() {
+        let fileInput = document.getElementById('dp');
+        let file = fileInput.files[0];
+        Swal.showLoading();
+        var formData = new FormData();
+        $(".repeater [data-repeater-item]").each(function (index) {
+            var prod_color = $(this).find("#prod_color").val();
+            var prod_size = $(this).find("#prod_size").val();
+            var prod_qty = $(this).find("#prod_qty").val();
+            var prod_remarks = $(this).find("#prod_remarks").val();
+            var product_details_id = $(this).find("#product_details_id").val();
+
+            formData.append("ProductDetails[" + index + "].product_details_id", product_details_id);
+            formData.append("ProductDetails[" + index + "].prod_color", prod_color);
+            formData.append("ProductDetails[" + index + "].prod_size", prod_size);
+            formData.append("ProductDetails[" + index + "].prod_qty", prod_qty);
+            formData.append("ProductDetails[" + index + "].prod_remarks", prod_remarks);
+        });
+        formData.append('product_id', $('#product_id').val());
+        formData.append('prod_name', $('#prod_name').val());
+        formData.append('manufacturername', $('#manufacturername').val());
+        formData.append('buying_price', $('#buying_price').val());
+        formData.append('sale_price', $('#sale_price').val());
+        formData.append('last_price', $('#last_price').val());
+        formData.append('product_category', $('#product_category').val());
+        formData.append('prod_type', $('#prod_type').val());
+        formData.append('remarks', $('#remarks').val());
+        formData.append('is_active', $('#is_active').is(':checked'));
+        formData.append('other_costing', $('#other_costing').val());
+        formData.append('discount_type', $('#discount_type').val());
+        formData.append('discont_rate', $('#discont_rate').val());
+        formData.append('dp', file);
+        if ($('#prod_name').val() == '' || $('#prod_name').val() == null) {
+            Swal.fire({
+                text: "Please Enter Product Name!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        if ($('#buying_price').val() == '' || $('#buying_price').val() == null) {
+            Swal.fire({
+                text: "Please Enter Buying Price!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        if ($('#product_category').val() == $('#product_category').text()) {
+            Swal.fire({
+                text: "Please Enter Product Category!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/Product/UpdateProduct',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+
+                if (result.success) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Data Update successfully!',
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: result.errorMessage || 'Something went wrong!',
+                        icon: 'error'
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: error || 'Something went wrong!',
+                    icon: 'error'
+                });
+            }
+        });
+    }
+    function resetRepeater() {
+    // Find all repeater items except the first one and remove them
+    var srModal = $('#ProdModal');
+    //srModal.find('[data-repeater-list="group-a"] [data-repeater-item]').not(':first').remove();
+
+    srModal.find('.repeater [data-repeater-item]').not(':first').remove();
+    //prModal.find('.repeater [data-repeater-item]').not(':first').remove();
+
+    // Clear input fields and text areas within the first repeater item
+    var firstItem = srModal.find('.repeater [data-repeater-item]').first();
+    firstItem.find('input[type="text"], input[type="number"], textarea').val('');
+    firstItem.find('select').val('').trigger('change');
+}
+
+    function deleteRole(product_id) {
+        if (confirm("Are you sure you want to delete this entry?")) {
+            Swal.showLoading();
+            $.ajax({
+                 // You can use 'DELETE' if your server supports it
+                        type: "POST",
+url: "/Product/Delete",
+data: { product_id: product_id },
+                success: function (result) {
+                    // Handle the success case, e.g., remove the deleted image from the table
+                    Swal.close();
+                    if (result.success) {
+                        Swal.fire({
+                            title: 'Success',
+                            text: 'Data deleted successfully',
+                            icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                        });
+                    } else {
+                        alert('Failed to delete entry.');
+                    }
+                },
+                error: function () {
+                    swal.fire('Oops...', 'Something went wrong!', 'error');
+                }
+            });
+        }
+    }
+
+    
+
+    
+</script>
+
+

@@ -1,0 +1,91 @@
+﻿@model RERP.Models.ProductModel
+@{
+    ViewBag.Title = "GetReport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="invoice-title">
+                            <h4 class="float-end font-size-16"><b>Product Code #</b> @Model.product_code</h4>
+                            <div class="mb-4">
+                                <img src="~/Content/rlogo.jpg" alt="logo" height="100"/>
+                            </div>
+                        </div>
+                        <hr>
+                        <h2 style="text-align:center;"><strong>Product Details</strong></h2>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <address>
+                                    <b>Product Name :</b> @Model.prod_name <br>
+                                    <b>Category Name :</b> @Model.category_name <br>
+                                    <b>Manufacturer :</b> @Model.manufacturername <br>
+                                    <b>Product Type :</b> @Model.prod_type
+                                </address>
+                            </div>
+                        
+                            <div class="col-sm-6 mt-3 text-sm-end">
+                                <address>
+                                    <strong>Price:</strong><br>
+                                    @if (Session["Role"] != null && Session["Role"].ToString() == "admin")
+                                    {
+                                        <b>Buying Price :</b> @Model.buying_price<br>
+                                    }
+                                    <b>Selling Price :</b> @Model.sale_price
+                                    </address>
+                            </div>
+                        </div>
+                        <div class="py-2 mt-3">
+                            <h3 class="font-size-15 fw-bold">Product summary</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Color</th>
+                                        <th>Size</th>
+                                        <th class="text-end">Qty</th>
+                                        <th class="text-end">Remain Qty</th>
+                                        <th class="text-end">Selling Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model?.ProductDetails != null && Model.ProductDetails.Any())
+                                    {
+                                        foreach (var data in Model.ProductDetails)
+                                        {
+                                            <tr>
+                                                <td>@(data.prod_color_name ?? "N/A")</td>
+
+                                                <td>@(data.prod_size_name ?? "N/A")</td>
+                                                <td class="text-end">@data.prod_qty</td>
+                                                <td class="text-end">@data.prod_remain_qty</td>
+                                                <td class="text-end">@data.prod_selling_qty</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="text-center">No product details available.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-print-none">
+                            <div class="float-end">
+                                <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
+                                <a href="@Url.RouteUrl("Stock")" class="btn btn-primary w-md waves-effect waves-light">Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

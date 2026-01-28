@@ -1,0 +1,795 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RERPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_category">
+          <Key>
+            <PropertyRef Name="cate_id" />
+          </Key>
+          <Property Name="cate_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="is_active" Type="bit" />
+          <Property Name="is_deleted" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="created_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_color">
+          <Key>
+            <PropertyRef Name="color_id" />
+          </Key>
+          <Property Name="color_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="color_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="is_active" Type="bit" />
+          <Property Name="is_deleted" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="created_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_company">
+          <Key>
+            <PropertyRef Name="com_id" />
+          </Key>
+          <Property Name="com_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="com_type" Type="nvarchar" MaxLength="50" />
+          <Property Name="company_name" Type="nvarchar(max)" />
+          <Property Name="company_logo" Type="nvarchar(max)" />
+          <Property Name="company_moto" Type="nvarchar(max)" />
+          <Property Name="facebook_id" Type="nvarchar(max)" />
+          <Property Name="telephone" Type="nvarchar" MaxLength="50" />
+          <Property Name="mobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="address" Type="nvarchar" MaxLength="50" />
+          <Property Name="website" Type="nvarchar" MaxLength="50" />
+          <Property Name="is_active" Type="nvarchar" MaxLength="50" />
+          <Property Name="is_delete" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_expense_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ex_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="is_active" Type="bit" Nullable="false" />
+          <Property Name="is_deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_expenses">
+          <Key>
+            <PropertyRef Name="expence_id" />
+          </Key>
+          <Property Name="expence_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="200" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ex_date" Type="date" />
+          <Property Name="is_deleted" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_product">
+          <Key>
+            <PropertyRef Name="product_id" />
+          </Key>
+          <Property Name="product_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="com_id" Type="int" />
+          <Property Name="product_code" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="product_category" Type="int" />
+          <Property Name="product_sub_category" Type="int" />
+          <Property Name="prod_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="prod_type" Type="nvarchar" MaxLength="50" />
+          <Property Name="total_qty" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="selling_total_qty" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="remaining_total_qty" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="total_buying_price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dp" Type="nvarchar(max)" />
+          <Property Name="sale_price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="buying_price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="last_price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="other_costing" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="discount_type" Type="nvarchar" MaxLength="50" />
+          <Property Name="discont_rate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="is_active" Type="bit" />
+          <Property Name="is_delete" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_at" Type="datetime" />
+          <Property Name="manufacturername" Type="nvarchar" MaxLength="50" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tbl_product_details">
+          <Key>
+            <PropertyRef Name="product_details_id" />
+          </Key>
+          <Property Name="product_details_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="prod_code" Type="nvarchar" MaxLength="10" />
+          <Property Name="prod_size" Type="int" />
+          <Property Name="prod_color" Type="int" />
+          <Property Name="prod_qty" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="prod_selling_qty" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="prod_remain_qty" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="prod_price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="prod_image" Type="nvarchar(max)" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_at" Type="datetime" />
+          <Property Name="prod_remarks" Type="nvarchar(max)" />
+          <Property Name="is_deleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_sell">
+          <Key>
+            <PropertyRef Name="sell_id" />
+          </Key>
+          <Property Name="sell_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="selling_date" Type="date" />
+          <Property Name="customer_name" Type="nvarchar(max)" />
+          <Property Name="total_value" Type="int" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="is_deleted" Type="bit" />
+          <Property Name="status" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_sell_details">
+          <Key>
+            <PropertyRef Name="sell_details_id" />
+          </Key>
+          <Property Name="sell_details_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sell_id" Type="int" Nullable="false" />
+          <Property Name="item_id" Type="int" />
+          <Property Name="item_code" Type="nvarchar" MaxLength="10" />
+          <Property Name="item_details_id" Type="int" />
+          <Property Name="color_id" Type="int" />
+          <Property Name="size_id" Type="int" />
+          <Property Name="qty" Type="int" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_size">
+          <Key>
+            <PropertyRef Name="size_id" />
+          </Key>
+          <Property Name="size_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="size_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="is_active" Type="bit" />
+          <Property Name="is_deleted" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="created_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_sub_category">
+          <Key>
+            <PropertyRef Name="sub_cate_id" />
+          </Key>
+          <Property Name="sub_cate_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cate_id" Type="int" Nullable="false" />
+          <Property Name="sub_cate_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="is_active" Type="bit" />
+          <Property Name="is_deleted" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_ip" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_user">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="com_id" Type="int" />
+          <Property Name="user_name" Type="nvarchar(max)" />
+          <Property Name="user_mail" Type="nvarchar" MaxLength="50" />
+          <Property Name="pass" Type="nvarchar" MaxLength="50" />
+          <Property Name="dob" Type="date" />
+          <Property Name="gender" Type="nvarchar" MaxLength="50" />
+          <Property Name="dp" Type="nvarchar(max)" />
+          <Property Name="role" Type="nvarchar" MaxLength="50" />
+          <Property Name="is_active" Type="bit" />
+          <Property Name="is_deleted" Type="bit" />
+          <Property Name="remember_token" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="created_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_pc" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="updated_at" Type="datetime" />
+          <Property Name="created_at" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="RERPModelStoreContainer">
+          <EntitySet Name="tbl_category" EntityType="Self.tbl_category" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_color" EntityType="Self.tbl_color" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_company" EntityType="Self.tbl_company" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_expense_type" EntityType="Self.tbl_expense_type" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_expenses" EntityType="Self.tbl_expenses" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_product" EntityType="Self.tbl_product" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_product_details" EntityType="Self.tbl_product_details" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_sell" EntityType="Self.tbl_sell" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_sell_details" EntityType="Self.tbl_sell_details" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_size" EntityType="Self.tbl_size" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_sub_category" EntityType="Self.tbl_sub_category" Schema="hasanrerp" store:Type="Tables" />
+          <EntitySet Name="tbl_user" EntityType="Self.tbl_user" Schema="hasanrerp" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RERPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_category">
+          <Key>
+            <PropertyRef Name="cate_id" />
+          </Key>
+          <Property Name="cate_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="is_active" Type="Boolean" />
+          <Property Name="is_deleted" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="created_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_color">
+          <Key>
+            <PropertyRef Name="color_id" />
+          </Key>
+          <Property Name="color_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="color_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="is_active" Type="Boolean" />
+          <Property Name="is_deleted" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="created_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_company">
+          <Key>
+            <PropertyRef Name="com_id" />
+          </Key>
+          <Property Name="com_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="com_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="company_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="company_logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="company_moto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="facebook_id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="is_active" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="is_delete" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_sell">
+          <Key>
+            <PropertyRef Name="sell_id" />
+          </Key>
+          <Property Name="sell_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="selling_date" Type="DateTime" Precision="0" />
+          <Property Name="customer_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="total_value" Type="Int32" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="is_deleted" Type="Boolean" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_size">
+          <Key>
+            <PropertyRef Name="size_id" />
+          </Key>
+          <Property Name="size_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="size_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="is_active" Type="Boolean" />
+          <Property Name="is_deleted" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="created_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_sub_category">
+          <Key>
+            <PropertyRef Name="sub_cate_id" />
+          </Key>
+          <Property Name="sub_cate_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cate_id" Type="Int32" Nullable="false" />
+          <Property Name="sub_cate_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="is_active" Type="Boolean" />
+          <Property Name="is_deleted" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_user">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="com_id" Type="Int32" />
+          <Property Name="user_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="user_mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dob" Type="DateTime" Precision="0" />
+          <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="is_active" Type="Boolean" />
+          <Property Name="is_deleted" Type="Boolean" />
+          <Property Name="remember_token" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="RERPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_category" EntityType="Self.tbl_category" />
+          <EntitySet Name="tbl_color" EntityType="Self.tbl_color" />
+          <EntitySet Name="tbl_company" EntityType="Self.tbl_company" />
+          <EntitySet Name="tbl_sell" EntityType="Self.tbl_sell" />
+          <EntitySet Name="tbl_size" EntityType="Self.tbl_size" />
+          <EntitySet Name="tbl_sub_category" EntityType="Self.tbl_sub_category" />
+          <EntitySet Name="tbl_user" EntityType="Self.tbl_user" />
+          <EntitySet Name="tbl_expense_type" EntityType="RERPModel.tbl_expense_type" />
+          <EntitySet Name="tbl_expenses" EntityType="RERPModel.tbl_expenses" />
+          <EntitySet Name="tbl_product" EntityType="RERPModel.tbl_product" />
+          <EntitySet Name="tbl_product_details" EntityType="RERPModel.tbl_product_details" />
+          <EntitySet Name="tbl_sell_details" EntityType="RERPModel.tbl_sell_details" />
+        </EntityContainer>
+        <EntityType Name="tbl_expense_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ex_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="is_active" Type="Boolean" Nullable="false" />
+          <Property Name="is_deleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_expenses">
+          <Key>
+            <PropertyRef Name="expence_id" />
+          </Key>
+          <Property Name="expence_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_id" Type="Int32" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ex_date" Type="DateTime" Precision="0" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+          <Property Name="is_deleted" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tbl_product">
+          <Key>
+            <PropertyRef Name="product_id" />
+          </Key>
+          <Property Name="product_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="com_id" Type="Int32" />
+          <Property Name="product_code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="product_category" Type="Int32" />
+          <Property Name="product_sub_category" Type="Int32" />
+          <Property Name="prod_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="prod_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="total_qty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="selling_total_qty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="remaining_total_qty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="total_buying_price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sale_price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="buying_price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="last_price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="other_costing" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="discount_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="discont_rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="is_active" Type="Boolean" />
+          <Property Name="is_delete" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+          <Property Name="manufacturername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_product_details">
+          <Key>
+            <PropertyRef Name="product_details_id" />
+          </Key>
+          <Property Name="product_details_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="prod_code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="prod_size" Type="Int32" />
+          <Property Name="prod_color" Type="Int32" />
+          <Property Name="prod_qty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="prod_selling_qty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="prod_remain_qty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="prod_price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="prod_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+          <Property Name="prod_remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="is_deleted" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tbl_sell_details">
+          <Key>
+            <PropertyRef Name="sell_details_id" />
+          </Key>
+          <Property Name="sell_details_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sell_id" Type="Int32" Nullable="false" />
+          <Property Name="item_id" Type="Int32" />
+          <Property Name="item_code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="item_details_id" Type="Int32" />
+          <Property Name="color_id" Type="Int32" />
+          <Property Name="size_id" Type="Int32" />
+          <Property Name="qty" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_pc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RERPModelStoreContainer" CdmEntityContainer="RERPEntities">
+          <EntitySetMapping Name="tbl_category">
+            <EntityTypeMapping TypeName="RERPModel.tbl_category">
+              <MappingFragment StoreEntitySet="tbl_category">
+                <ScalarProperty Name="cate_id" ColumnName="cate_id" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_pc" ColumnName="created_pc" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="created_ip" ColumnName="created_ip" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_pc" ColumnName="updated_pc" />
+                <ScalarProperty Name="updated_ip" ColumnName="updated_ip" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_color">
+            <EntityTypeMapping TypeName="RERPModel.tbl_color">
+              <MappingFragment StoreEntitySet="tbl_color">
+                <ScalarProperty Name="color_id" ColumnName="color_id" />
+                <ScalarProperty Name="color_name" ColumnName="color_name" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_pc" ColumnName="created_pc" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="created_ip" ColumnName="created_ip" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_pc" ColumnName="updated_pc" />
+                <ScalarProperty Name="updated_ip" ColumnName="updated_ip" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_company">
+            <EntityTypeMapping TypeName="RERPModel.tbl_company">
+              <MappingFragment StoreEntitySet="tbl_company">
+                <ScalarProperty Name="com_id" ColumnName="com_id" />
+                <ScalarProperty Name="com_type" ColumnName="com_type" />
+                <ScalarProperty Name="company_name" ColumnName="company_name" />
+                <ScalarProperty Name="company_logo" ColumnName="company_logo" />
+                <ScalarProperty Name="company_moto" ColumnName="company_moto" />
+                <ScalarProperty Name="facebook_id" ColumnName="facebook_id" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="is_delete" ColumnName="is_delete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_sell">
+            <EntityTypeMapping TypeName="RERPModel.tbl_sell">
+              <MappingFragment StoreEntitySet="tbl_sell">
+                <ScalarProperty Name="sell_id" ColumnName="sell_id" />
+                <ScalarProperty Name="selling_date" ColumnName="selling_date" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="total_value" ColumnName="total_value" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_pc" ColumnName="created_pc" />
+                <ScalarProperty Name="created_ip" ColumnName="created_ip" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_pc" ColumnName="updated_pc" />
+                <ScalarProperty Name="updated_ip" ColumnName="updated_ip" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_size">
+            <EntityTypeMapping TypeName="RERPModel.tbl_size">
+              <MappingFragment StoreEntitySet="tbl_size">
+                <ScalarProperty Name="size_id" ColumnName="size_id" />
+                <ScalarProperty Name="size_name" ColumnName="size_name" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_pc" ColumnName="created_pc" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="created_ip" ColumnName="created_ip" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_pc" ColumnName="updated_pc" />
+                <ScalarProperty Name="updated_ip" ColumnName="updated_ip" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_sub_category">
+            <EntityTypeMapping TypeName="RERPModel.tbl_sub_category">
+              <MappingFragment StoreEntitySet="tbl_sub_category">
+                <ScalarProperty Name="sub_cate_id" ColumnName="sub_cate_id" />
+                <ScalarProperty Name="cate_id" ColumnName="cate_id" />
+                <ScalarProperty Name="sub_cate_name" ColumnName="sub_cate_name" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_pc" ColumnName="created_pc" />
+                <ScalarProperty Name="created_ip" ColumnName="created_ip" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_pc" ColumnName="updated_pc" />
+                <ScalarProperty Name="updated_ip" ColumnName="updated_ip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_user">
+            <EntityTypeMapping TypeName="RERPModel.tbl_user">
+              <MappingFragment StoreEntitySet="tbl_user">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="com_id" ColumnName="com_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_mail" ColumnName="user_mail" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="dp" ColumnName="dp" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
+                <ScalarProperty Name="remember_token" ColumnName="remember_token" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_pc" ColumnName="created_pc" />
+                <ScalarProperty Name="created_ip" ColumnName="created_ip" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_pc" ColumnName="updated_pc" />
+                <ScalarProperty Name="updated_ip" ColumnName="updated_ip" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_expense_type">
+            <EntityTypeMapping TypeName="RERPModel.tbl_expense_type">
+              <MappingFragment StoreEntitySet="tbl_expense_type">
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="ex_name" ColumnName="ex_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_expenses">
+            <EntityTypeMapping TypeName="RERPModel.tbl_expenses">
+              <MappingFragment StoreEntitySet="tbl_expenses">
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="ex_date" ColumnName="ex_date" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="expence_id" ColumnName="expence_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_product">
+            <EntityTypeMapping TypeName="RERPModel.tbl_product">
+              <MappingFragment StoreEntitySet="tbl_product">
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="manufacturername" ColumnName="manufacturername" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="updated_ip" ColumnName="updated_ip" />
+                <ScalarProperty Name="updated_pc" ColumnName="updated_pc" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="created_ip" ColumnName="created_ip" />
+                <ScalarProperty Name="created_pc" ColumnName="created_pc" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="is_delete" ColumnName="is_delete" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="discont_rate" ColumnName="discont_rate" />
+                <ScalarProperty Name="discount_type" ColumnName="discount_type" />
+                <ScalarProperty Name="other_costing" ColumnName="other_costing" />
+                <ScalarProperty Name="last_price" ColumnName="last_price" />
+                <ScalarProperty Name="buying_price" ColumnName="buying_price" />
+                <ScalarProperty Name="sale_price" ColumnName="sale_price" />
+                <ScalarProperty Name="dp" ColumnName="dp" />
+                <ScalarProperty Name="total_buying_price" ColumnName="total_buying_price" />
+                <ScalarProperty Name="remaining_total_qty" ColumnName="remaining_total_qty" />
+                <ScalarProperty Name="selling_total_qty" ColumnName="selling_total_qty" />
+                <ScalarProperty Name="total_qty" ColumnName="total_qty" />
+                <ScalarProperty Name="prod_type" ColumnName="prod_type" />
+                <ScalarProperty Name="prod_name" ColumnName="prod_name" />
+                <ScalarProperty Name="product_sub_category" ColumnName="product_sub_category" />
+                <ScalarProperty Name="product_category" ColumnName="product_category" />
+                <ScalarProperty Name="product_code" ColumnName="product_code" />
+                <ScalarProperty Name="com_id" ColumnName="com_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_product_details">
+            <EntityTypeMapping TypeName="RERPModel.tbl_product_details">
+              <MappingFragment StoreEntitySet="tbl_product_details">
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
+                <ScalarProperty Name="prod_remarks" ColumnName="prod_remarks" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="updated_ip" ColumnName="updated_ip" />
+                <ScalarProperty Name="updated_pc" ColumnName="updated_pc" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="created_ip" ColumnName="created_ip" />
+                <ScalarProperty Name="created_pc" ColumnName="created_pc" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="prod_image" ColumnName="prod_image" />
+                <ScalarProperty Name="prod_price" ColumnName="prod_price" />
+                <ScalarProperty Name="prod_remain_qty" ColumnName="prod_remain_qty" />
+                <ScalarProperty Name="prod_selling_qty" ColumnName="prod_selling_qty" />
+                <ScalarProperty Name="prod_qty" ColumnName="prod_qty" />
+                <ScalarProperty Name="prod_color" ColumnName="prod_color" />
+                <ScalarProperty Name="prod_size" ColumnName="prod_size" />
+                <ScalarProperty Name="prod_code" ColumnName="prod_code" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="product_details_id" ColumnName="product_details_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_sell_details">
+            <EntityTypeMapping TypeName="RERPModel.tbl_sell_details">
+              <MappingFragment StoreEntitySet="tbl_sell_details">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="updated_ip" ColumnName="updated_ip" />
+                <ScalarProperty Name="updated_pc" ColumnName="updated_pc" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="created_ip" ColumnName="created_ip" />
+                <ScalarProperty Name="created_pc" ColumnName="created_pc" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="size_id" ColumnName="size_id" />
+                <ScalarProperty Name="color_id" ColumnName="color_id" />
+                <ScalarProperty Name="item_details_id" ColumnName="item_details_id" />
+                <ScalarProperty Name="item_code" ColumnName="item_code" />
+                <ScalarProperty Name="item_id" ColumnName="item_id" />
+                <ScalarProperty Name="sell_id" ColumnName="sell_id" />
+                <ScalarProperty Name="sell_details_id" ColumnName="sell_details_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

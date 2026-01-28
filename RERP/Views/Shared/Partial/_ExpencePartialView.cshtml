@@ -1,0 +1,102 @@
+﻿@{
+    var TypeLists = ViewBag.TypeLists as IEnumerable<RERP.Models.DropDownModel>;
+}
+<div class="modal fade" id="ExpnModal" tabindex="-1" aria-labelledby="ExpnModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ExpnModalLabel">Expence</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0 font-size-18">Add Expence</h4>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <form>
+                                    <div class="row">
+                                        <input id="product_id" name="product_id" type="text" class="form-control" hidden>
+                                        <div class="col-sm-6">
+                                            <label for="type_id" class="control-label">Expence Type</label>
+                                            <select class="form-control" id="type_id" style="width:100%" name="type_id">
+                                                <option value="">-Select Category-</option>
+                                                @foreach (var item in TypeLists)
+                                                {
+                                                    <option value="@item.id">@item.dd_value</option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            
+                                            <div class="mb-3">
+                                                <label for="note">Expence Note</label>
+                                                <input type="text" class="form-control" id="note" name="note" placeholder="Note">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label for="amount" class="control-label">Expence Amount</label>
+                                           <input type="number" class="form-control" id="amount" name="amount" placeholder="0.00">
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            
+                                            <div class="mb-3">
+                                                <label for="ex_date">Date</label>
+                                                <input type="date" class="form-control" id="ex_date" name="ex_date">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-12">
+                                            <label for="remarks">Expence Description</label>
+                                            <textarea class="form-control" id="remarks" rows="5" placeholder="Product Description" name="remarks"></textarea>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+                        @*<div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-3">Product Images</h4>
+                                <div class="fallback">
+                                    <input name="dp" type="file" multiple id="dp" />
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="productImage">Product Image</label>
+                                <img id="productImage" name="productImage" src="" alt="Product Image" style="max-width: 60px; display: none;" />
+                            </div>
+                        </div>*@ <!-- end card-->
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="expnsavebutton" onclick="SubmitForm()">Save Changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+

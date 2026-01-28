@@ -1,0 +1,412 @@
+﻿
+@{
+    ViewBag.Title = "Sell";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var colorLists = ViewBag.ColorLists as IEnumerable<RERP.Models.DropDownModel>;
+    var sizeLists = ViewBag.SizeLists as IEnumerable<RERP.Models.DropDownModel>;
+    var ProdLists = ViewBag.ProdLists as IEnumerable<RERP.Models.DropDownModel>;
+}
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <form>
+                            <div class="row">
+                                <input id="sell_id" name="sell_id" type="text" class="form-control" hidden>
+
+                                <div class="col-sm-4">
+                                    <label for="selling_date">Sell Date</label>
+                                    <input id="selling_date" name="selling_date" type="date" class="form-control">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="customer_name">Customer Name</label>
+                                    <input id="customer_name" name="customer_name" type="text" class="form-control" placeholder="Customer Name">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="remarks">Remarks</label>
+                                    <textarea name="remarks" id="remarks" placeholder="Comments" class="form-control" rows="1"></textarea>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Item List</h4>
+                        <form id="repeater_select">
+                            <div class="row">
+                                <div class="mb-3 col-lg-2">
+                                    <label for="prod_id">Item Code</label>
+                                    <select class="form-control prod_id select2" id="prod_id" name="prod_id" style="width: 100%">
+                                        <option value="">-Select Item-</option>
+                                        @foreach (var item in ProdLists)
+                                        {
+                                            <option value="@item.id">@item.dd_value</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-lg-1">
+                                    <label for="prod_color">Color</label>
+                                    <select class="form-control prod_color" id="prod_color" name="prod_color" style="width: 100%">
+                                        <option value="">-Select Color-</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="mb-3 col-lg-1">
+                                    <label for="prod_size">Size</label>
+                                    <select class="form-control prod_size" id="prod_size" name="prod_size" style="width: 100%">
+                                        <option value="">-Select Size-</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="mb-3 col-lg-2">
+                                    <label for="prod_qty">QTY</label>
+                                    <input type="number" class="form-control prod_qty" id="prod_qty" name="prod_qty" placeholder="Quantity" onchange="validateQuantity(this)">
+                                </div>
+                                <input type="number" class="form-control hidden_prod_qty" id="hidden_prod_qty" name="hidden_prod_qty" placeholder="Quantity" hidden>
+                                <div class="mb-3 col-lg-2">
+                                    <label for="prod_qty">Unit Price</label>
+                                    <input type="number" class="form-control price" id="price" name="price" placeholder="Unit Price">
+                                </div>
+                                <div class="mb-3 col-lg-3">
+                                    <label for="prod_remarks">Remarks</label>
+                                    <textarea class="form-control prod_remarks" placeholder="Remarks" rows="1" id="prod_remarks" name="prod_remarks"></textarea>
+                                </div>
+
+                                <div class="mb-3 col-lg-1 align-self-end">
+                                    <button type="button" class="btn btn-primary add-row">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <input type="hidden" id="hidden_total_price" name="hidden_total_price" value="0.00">
+                        <table class="table table-bordered mt-3" id="product_table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Color</th>
+                                    <th>Size</th>
+                                    <th>QTY</th>
+                                    <th>Unit Price</th>
+                                    <th>Remarks</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="product_table_body">
+                                <!-- Dynamically added rows will appear here -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3"></td>
+                                    <td><b>Total Price:</b></td>
+                                    <td id="total_price">0.00</td> <!-- Display total price here -->
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    @*<a href="~/Setting/AddDepartment" class="btn btn-primary waves-effect waves-light">Create Department</a>*@
+                    <button class="btn btn-info" data-bs-toggle="modal" onclick="SubmitForm()" @*data-bs-target="#projectModal"*@>Save Sell</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   $(document).ready(function () {
+    $('.select2').select2();
+
+    var ProdLists = @Html.Raw(Json.Encode(ProdLists));
+    var colorLists = [];
+    var sizeLists = [];
+
+    function getItemTextById(id) {
+        return ProdLists.find(item => item.id == id)?.dd_value || '';
+    }
+
+    function getColorTextById(id) {
+        var color = colorLists.find(item => item.id == id);
+        return color ? color.dd_value : '';
+    }
+
+    function getSizeTextById(id) {
+        var size = sizeLists.find(item => item.id == id);
+        return size ? size.dd_value : '';
+    }
+
+    function populateDropdown(data, $dropdown, defaultText) {
+        console.log('Populating dropdown with data:', data);
+        $dropdown.empty();
+        $dropdown.append('<option value="">' + defaultText + '</option>');
+        if (Array.isArray(data)) {
+            data.forEach(function (item) {
+                $dropdown.append('<option value="' + item.id + '">' + item.dd_value + '</option>');
+            });
+        } else {
+            console.error('Error: Data is not an array', data);
+        }
+    }
+
+    $(document).on('change', '.prod_id', function () {
+        var product_id = $(this).val();
+        $('.hidden_prod_qty').val('');
+        $('.prod_qty').val('');
+        if (product_id) {
+            $.ajax({
+                url: "/Product/GetProductColorData",
+                method: 'GET',
+                data: { product_id: product_id },
+                success: function (data) {
+                    console.log('Received color data:', data);
+                    colorLists = data; // Update colorLists here
+                    populateDropdown(data, $('#prod_color'), '-Select Color-');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    });
+
+    $(document).on('change', '.prod_color', function () {
+        var color_id = $(this).val();
+        var product_id = $(".prod_id").val();
+        $('.hidden_prod_qty').val('');
+        $('.prod_qty').val('');
+        if (product_id) {
+            $.ajax({
+                url: "/Product/GetProductSizeData",
+                method: 'GET',
+                data: { product_id: product_id, color_id: color_id },
+                success: function (data) {
+                    console.log('Received size data:', data);
+                    sizeLists = data; // Update sizeLists here
+                    populateDropdown(data, $('#prod_size'), '-Select Size-');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    });
+
+    $(document).on('change', '.prod_size', function () {
+        var size_id = $(this).val();
+        var product_id = $(".prod_id").val();
+        var color_id = $(".prod_color").val();
+        $('.hidden_prod_qty').val('');
+        $('.prod_qty').val('');
+        if (product_id) {
+            $.ajax({
+                url: "/Product/GetProductQtyData",
+                method: 'GET',
+                data: { product_id: product_id, color_id: color_id, size_id: size_id },
+                success: function (data) {
+                    console.log('Received qty data:', data);
+                    $('.prod_qty').val(data);
+                    $('.hidden_prod_qty').val(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    });
+
+    $('.add-row').click(function() {
+        var prodId = $('#prod_id').val();
+        var colorId = $('#prod_color').val();
+        var sizeId = $('#prod_size').val();
+        var qty = $('#prod_qty').val();
+        var remarks = $('#prod_remarks').val();
+        var price = $('#price').val();
+        calculateTotalPrice();
+        if (prodId && colorId && sizeId && qty) {
+            var newRow = `<tr>
+                <td>
+                    ${getItemTextById(prodId)}
+                    <input type="hidden" class="hidden_prod_id" value="${prodId}">
+                </td>
+                <td>
+                    ${getColorTextById(colorId)}
+                    <input type="hidden" class="hidden_color_id" value="${colorId}">
+                </td>
+                <td>
+                    ${getSizeTextById(sizeId)}
+                    <input type="hidden" class="hidden_size_id" value="${sizeId}">
+                </td>
+                <td>${qty}</td>
+                <td>${price}</td>
+                <td>${remarks}</td>
+                <td>
+                    <button type="button" class="btn btn-warning edit-row">Edit</button>
+                    <button type="button" class="btn btn-danger delete-row">Delete</button>
+                </td>
+            </tr>`;
+            $('#product_table_body').append(newRow);
+
+            // Reset form
+            $('#prod_id').val('').trigger('change');
+            $('#prod_color').val('');
+            $('#prod_size').val('');
+            $('#prod_qty').val('');
+            $('#price').val('');
+            $('#prod_remarks').val('');
+        } else {
+            alert("Please fill out all fields.");
+        }
+        calculateTotalPrice();
+    });
+
+    $(document).on('click', '.delete-row', function() {
+        $(this).closest('tr').remove();
+    });
+
+    $(document).on('click', '.edit-row', function() {
+        var row = $(this).closest('tr');
+        var prodId = row.find('.hidden_prod_id').val();
+        var colorId = row.find('.hidden_color_id').val();
+        var sizeId = row.find('.hidden_size_id').val();
+        var qty = row.find('td:eq(3)').text();
+        var price = row.find('td:eq(4)').text();
+        var remarks = row.find('td:eq(5)').text();
+
+        $('#prod_id').val(prodId).trigger('change');
+        $('#prod_color').val(colorId);
+        $('#prod_size').val(sizeId);
+        $('#prod_qty').val(qty);
+        $('#price').val(price);
+        $('#prod_remarks').val(remarks);
+
+        row.remove();
+    });
+
+   
+
+    
+   });
+    function validateQuantity(input) {
+        var stockQty = $('.hidden_prod_qty').val();
+        var issueQty = parseFloat(input.value);
+
+        if (issueQty > stockQty) {
+            alert("Selling quantity cannot be greater than Stock/Remain quantity");
+            input.value = '';
+        }
+    }
+    function calculateTotalPrice() {
+        var totalPrice = 0;
+
+        // Iterate over each row in the table body
+        $("#product_table_body tr").each(function () {
+            var price = parseFloat($(this).find("td:eq(4)").text()); // Get the price from the row
+            totalPrice += price; // Add the price to the total
+        });
+
+        // Display the total price in the footer
+        $('#total_price').text(totalPrice.toFixed(2));
+        $('#hidden_total_price').val(totalPrice.toFixed(2));// Assuming you want to display the total with two decimal places
+    }
+    function SubmitForm() {
+        Swal.showLoading();
+        console.log($('#hidden_total_price').val());
+        var formData = new FormData();
+        // Get data from the table rows
+        $("#product_table_body tr").each(function (index) {
+            var prodId = $(this).find(".hidden_prod_id").val();
+            var colorId = $(this).find(".hidden_color_id").val();
+            var sizeId = $(this).find(".hidden_size_id").val();
+            var qty = $(this).find("td:eq(3)").text();
+            var price = $(this).find("td:eq(4)").text();
+            var remarks = $(this).find("td:eq(5)").text();
+
+            formData.append("SellDetails[" + index + "].item_id", prodId);
+            formData.append("SellDetails[" + index + "].color_id", colorId);
+            formData.append("SellDetails[" + index + "].size_id", sizeId);
+            formData.append("SellDetails[" + index + "].qty", qty);
+            formData.append("SellDetails[" + index + "].selling_price", price);
+            formData.append("SellDetails[" + index + "].remarks", remarks);
+        });
+
+        // Append other form data
+        formData.append('customer_name', $('#customer_name').val());
+        formData.append('selling_date', $('#selling_date').val());
+        formData.append('remarks', $('#remarks').val());
+        formData.append('total_value', $('#hidden_total_price').val());
+
+        // Validation checks
+        if ($('#customer_name').val() == '' || $('#customer_name').val() == null) {
+            Swal.fire({
+                text: "Please Enter Customer Name!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        if ($('#selling_date').val() == '' || $('#selling_date').val() == null) {
+            Swal.fire({
+                text: "Please Enter Date!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+        if ($('#hidden_total_price').val() == '' || $('#hidden_total_price').val() == null) {
+            Swal.fire({
+                text: "Please Total Value Can't be NUll!",
+                title: "Warning!",
+                icon: 'error',
+            });
+            return false;
+        }
+
+        // AJAX request to save data
+        $.ajax({
+            type: 'POST',
+            url: '/Sell/SaveSell',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if (result.success) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Data saved successfully!',
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: result.errorMessage || 'Something went wrong!',
+                        icon: 'error'
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: error || 'Something went wrong!',
+                    icon: 'error'
+                });
+            }
+        });
+    }
+</script>
+
+
+

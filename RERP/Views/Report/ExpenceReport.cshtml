@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Expence Report";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    #ReportTable th, #ReportTable td {
+        text-align: center;
+        vertical-align: middle; /* Ensures content is vertically centered */
+    }
+</style>
+
+<div class="page-content">
+    <div class="container-fluid">
+        <h3>Expense Report</h3>
+        <div class="row mt-4">
+            <div class="col-md-12 mt-5">
+
+                <div class="form-group">
+                    <label for="monthDropdown">Select Month:</label>
+                    <select id="monthDropdown" class="form-control w-25 d-inline" name="monthDropdown">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <button id="searchMonthlyReport" class="btn btn-primary">Search</button>
+                </div>
+                <br /><br />
+                <table id="ReportTable" class="table table-bordered table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">Date</th>
+                            <th style="text-align:center">Expence Name</th>
+                            <th style="text-align:center">Expence Type</th>
+                            <th style="text-align:center">Expence Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will load dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize DataTable
+        const reportTable = $('#ReportTable').DataTable({
+            ajax: {
+                url: '/Expence/Dailyreport', // Initial daily report data
+                dataSrc: ''
+            },
+            columns: [
+                { data: 'ex_date_st' },
+                { data: 'note' },
+                { data: 'ex_name' },
+                { data: 'amount' }
+            ],
+            dom: 'Bfrtip', // Buttons for exporting
+            buttons: [
+                'excelHtml5', 'csvHtml5'
+            ]
+        });
+
+        // Load Monthly Report on Button Click
+        $('#searchMonthlyReport').click(function () {
+            const selectedMonth = $('#monthDropdown').val();
+            // Replace table data with new data from monthly report
+            reportTable.ajax.url(`/Expence/Monthlyreport?month=${selectedMonth}`).load();
+        });
+    });
+</script>
+
+
+
